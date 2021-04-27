@@ -71,6 +71,7 @@ dependencies {
     implementation(Deps.Compose.composeUi)
     implementation(Deps.Compose.composeMaterial)
     implementation(Deps.Compose.composeUiTooling)
+    implementation(Deps.Accompanist.coil)
     implementation(Deps.lifecycle)
     implementation(Deps.activityCompose)
 }

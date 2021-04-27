@@ -2,4 +2,12 @@
 
     <string name="app_name">Podlodka Crew</string>
 
+    <string name="search">Поиск</string>
+    <string name="favorite">Избранное</string>
+    <string name="sessions">Сессии</string>
+
+    <string name="favorite_add">Добавить в избранное</string>
+    <string name="favorite_remove">Удалить из избранного</string>
+    <string name="session_not_found">Не найдено ни одной сессии</string>
+
 </resources>
