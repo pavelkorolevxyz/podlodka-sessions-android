@@ -18,11 +18,30 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+
+            isShrinkResources = false
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro")
         }
+        release {
+            isShrinkResources = true
+            isMinifyEnabled = true
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    buildFeatures {
+        buildConfig = false
+    }
+
+    lint {
+        isCheckReleaseBuilds = false
     }
 
     compileOptions {
@@ -40,18 +59,18 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = rootProject.extra["compose_version"] as String
+        kotlinCompilerExtensionVersion = Deps.Compose.version
     }
 
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.3.0")
-    implementation("androidx.compose.ui:ui:${rootProject.extra["compose_version"]}")
-    implementation("androidx.compose.material:material:${rootProject.extra["compose_version"]}")
-    implementation("androidx.compose.ui:ui-tooling:${rootProject.extra["compose_version"]}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.0-alpha07")
+    implementation(Deps.coreKtx)
+    implementation(Deps.appCompat)
+    implementation(Deps.material)
+    implementation(Deps.Compose.composeUi)
+    implementation(Deps.Compose.composeMaterial)
+    implementation(Deps.Compose.composeUiTooling)
+    implementation(Deps.lifecycle)
+    implementation(Deps.activityCompose)
 }
