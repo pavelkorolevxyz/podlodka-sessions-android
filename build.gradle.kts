@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 
     dependencies {
@@ -13,6 +14,15 @@ buildscript {
     }
 }
 
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.16.0")
+}
+
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+detekt {
+    toolVersion = "1.16.0"
+    allRules = true
 }

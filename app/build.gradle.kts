@@ -1,18 +1,20 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("io.gitlab.arturbosch.detekt")
 }
 
 android {
-    compileSdk = 30
-    buildToolsVersion = "30.0.3"
+
+    compileSdk = AppConfig.compileSdkVersion
+    buildToolsVersion = AppConfig.buildToolsVersion
 
     defaultConfig {
-        applicationId = "xyz.pavelkorolevxyz.podlodka.sessions"
-        minSdk = 21
-        targetSdk = 30
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.id
+        minSdk = AppConfig.minSdkVersion
+        targetSdk = AppConfig.targetSdkVersion
+        versionCode = AppConfig.versionCode
+        versionName = AppConfig.versionName
     }
 
     buildTypes {
@@ -22,21 +24,25 @@ android {
                 "proguard-rules.pro")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
         useIR = true
     }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = rootProject.extra["compose_version"] as String
-        kotlinCompilerVersion = "1.4.32"
     }
+
 }
 
 dependencies {
@@ -47,9 +53,5 @@ dependencies {
     implementation("androidx.compose.material:material:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.ui:ui-tooling:${rootProject.extra["compose_version"]}")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.0-alpha02")
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["compose_version"]}")
+    implementation("androidx.activity:activity-compose:1.3.0-alpha07")
 }
