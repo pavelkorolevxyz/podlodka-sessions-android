@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.transform.CircleCropTransformation
@@ -35,7 +37,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PodlodkaApp {
-                SessionsList(sessions = MockSessions)
+                //SessionsList(sessions = MockSessions)
+                SessionDetails(session = MockSessions.first())
             }
         }
     }
@@ -48,6 +51,18 @@ fun PodlodkaApp(content: @Composable () -> Unit) {
             content()
         }
     }
+}
+
+@Preview(name = "Session List", showBackground = true)
+@Composable
+fun SessionListPreview() {
+    SessionsList(sessions = MockSessions)
+}
+
+@Preview(name = "Session Details", showBackground = true)
+@Composable
+fun SessionDetailsPreview() {
+    SessionDetails(session = MockSessions.first())
 }
 
 @Composable
@@ -222,6 +237,59 @@ fun SessionsList(sessions: List<Session>) {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun SessionDetails(session: Session) {
+    val imagePainter = rememberCoilPainter(
+        request = session.imageUrl,
+        requestBuilder = {
+            placeholder(R.drawable.ic_launcher_foreground)
+            transformations(CircleCropTransformation())
+        },
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                modifier = Modifier.size(300.dp),
+                painter = imagePainter,
+                contentDescription = session.speaker,
+            )
+            Text(
+                modifier = Modifier.padding(top = 16.dp),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                text = session.speaker,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_calendar_blank),
+                    contentDescription = null,
+                )
+                Text(text = "${session.date}, ${session.timeInterval}")
+            }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                fontSize = 18.sp,
+                text = session.description,
+            )
         }
     }
 }
