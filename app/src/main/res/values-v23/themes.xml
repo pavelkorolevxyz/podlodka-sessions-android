@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="Theme.Podlodka" parent="Theme.Podlodka.Base">
+        <item name="android:statusBarColor">@android:color/background_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+</resources>
