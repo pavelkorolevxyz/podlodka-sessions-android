@@ -20,4 +20,8 @@ object Deps {
     }
 
     const val activityCompose = "androidx.activity:activity-compose:1.3.0-alpha07"
+
+    object Navigation {
+        const val compose = "androidx.navigation:navigation-compose:1.0.0-alpha10"
+    }
 }

@@ -73,4 +73,5 @@ dependencies {
     implementation(Deps.Accompanist.coil)
     implementation(Deps.lifecycle)
     implementation(Deps.activityCompose)
+    implementation(Deps.Navigation.compose)
 }
