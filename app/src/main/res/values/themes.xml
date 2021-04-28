@@ -1,6 +1,8 @@
 <resources>
 
-    <style name="Theme.Podlodka.Base" parent="Theme.MaterialComponents.DayNight.DarkActionBar" />
+    <style name="Theme.Podlodka.Base" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/podlodka_blue</item>
+    </style>
 
     <style name="Theme.Podlodka" parent="Theme.Podlodka.Base">
         <item name="android:statusBarColor">?attr/colorPrimary</item>

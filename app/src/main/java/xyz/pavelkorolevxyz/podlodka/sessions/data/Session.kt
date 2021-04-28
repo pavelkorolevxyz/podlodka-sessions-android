@@ -24,7 +24,7 @@ val MockSessions = listOf(
         date = "19 апреля",
         timeInterval = "19:00-20:00",
         description = "Доклад: Основы Reactive Programming с использованием RxJava",
-        imageUrl = "https://static.tildacdn.com/tild6335-6364-4534-b163-663735646638/me-01.jpg"
+        imageUrl = "error"
     ),
     Session(
         id = "3",

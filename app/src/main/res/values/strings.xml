@@ -9,5 +9,9 @@
     <string name="favorite_add">Добавить в избранное</string>
     <string name="favorite_remove">Удалить из избранного</string>
     <string name="session_not_found">Не найдено ни одной сессии</string>
+    <string name="search_clear">Отменить поиск</string>
+
+    <string name="session_error">Не удалось загрузить список сессий</string>
+    <string name="reload">Попробовать ещё раз</string>
 
 </resources>
