@@ -55,7 +55,8 @@ val MockSessions = listOf(
         speaker = "Артур Бадретдинов, Павел Щегельский",
         date = "21 апреля",
         timeInterval = "19:00-20:00",
-        description = "Круглый стол: Планируем переход с Rx на Coroutines и пытаемся объяснить бизнесу почему это надо делать уже сейчас",
+        description = "Круглый стол: Планируем переход с Rx на Coroutines и " +
+            "пытаемся объяснить бизнесу почему это надо делать уже сейчас",
         imageUrl = "https://static.tildacdn.com/tild3431-6431-4338-b332-313139613636/Aussie_Ava.jpeg"
     ),
     Session(

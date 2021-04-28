@@ -20,7 +20,13 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-detekt {
-    toolVersion = "1.16.0"
-    allRules = true
+subprojects {
+    plugins.apply("io.gitlab.arturbosch.detekt")
+
+    detekt {
+        toolVersion = "1.16.0"
+        allRules = true
+        config = files("$rootDir/config/detekt.yml")
+        buildUponDefaultConfig = true
+    }
 }

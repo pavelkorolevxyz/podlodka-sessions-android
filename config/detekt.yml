@@ -1,0 +1,14 @@
+config:
+    warningsAsErrors: true
+
+complexity:
+    LongParameterList:
+        ignoreAnnotated: [ 'Composable' ] # it seems ok to have many parameters in Composables
+    LongMethod:
+        active: false # it's hard to write Composable screen to fit limits
+
+style:
+    UnusedPrivateMember:
+        active: false # because of Composable Previews
+    MagicNumber:
+        active: false # because of Colors
