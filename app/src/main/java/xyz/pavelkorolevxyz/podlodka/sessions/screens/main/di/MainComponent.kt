@@ -1,4 +1,4 @@
-package xyz.pavelkorolevxyz.podlodka.sessions.di.main
+package xyz.pavelkorolevxyz.podlodka.sessions.screens.main.di
 
 import androidx.lifecycle.ViewModelProvider
 import dagger.Subcomponent
