@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import xyz.pavelkorolevxyz.podlodka.sessions.data.MockSessions
+import xyz.pavelkorolevxyz.podlodka.sessions.data.MockSession
 import xyz.pavelkorolevxyz.podlodka.sessions.data.Session
 import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.PodlodkaTheme
 import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.Small
@@ -64,7 +64,7 @@ fun FavoriteSessionCard(
 @Preview
 @Composable
 private fun FavoriteSessionCardPreview() {
-    val sessionState = remember { mutableStateOf(MockSessions.first()) }
+    val sessionState = remember { mutableStateOf(MockSession) }
     PodlodkaTheme {
         FavoriteSessionCard(sessionState = sessionState) {}
     }
@@ -73,7 +73,7 @@ private fun FavoriteSessionCardPreview() {
 @Preview
 @Composable
 private fun FavoriteSessionCardDarkPreview() {
-    val sessionState = remember { mutableStateOf(MockSessions.first()) }
+    val sessionState = remember { mutableStateOf(MockSession) }
     PodlodkaTheme(isDarkTheme = true) {
         FavoriteSessionCard(sessionState = sessionState) {}
     }

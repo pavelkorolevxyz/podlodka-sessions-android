@@ -1,4 +1,4 @@
-package xyz.pavelkorolevxyz.podlodka.sessions.screens
+package xyz.pavelkorolevxyz.podlodka.sessions.screens.sessiondetails
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,21 +10,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.Avatar
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.BackgroundSurface
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.DateTimeText
-import xyz.pavelkorolevxyz.podlodka.sessions.data.MockSessions
-import xyz.pavelkorolevxyz.podlodka.sessions.data.Session
 import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.Medium
-import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.PodlodkaTheme
 
 @Composable
-fun SessionDetailsScreen(session: Session) {
+fun SessionDetailsScreen(
+    viewModel: SessionDetailsViewModel,
+    sessionId: String,
+) {
+    viewModel.onLoad(sessionId = sessionId)
     BackgroundSurface {
+        val sessionState = viewModel.sessionFlow.collectAsState(initial = null)
+        val session = sessionState.value ?: return@BackgroundSurface
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -56,21 +59,5 @@ fun SessionDetailsScreen(session: Session) {
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SessionDetailsScreenPreview() {
-    PodlodkaTheme {
-        SessionDetailsScreen(session = MockSessions.first())
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SessionDetailsScreenDarkPreview() {
-    PodlodkaTheme(isDarkTheme = true) {
-        SessionDetailsScreen(session = MockSessions.first())
     }
 }

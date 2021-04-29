@@ -8,23 +8,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import xyz.pavelkorolevxyz.podlodka.sessions.data.MockSessions
+import xyz.pavelkorolevxyz.podlodka.sessions.data.MockSession
 import xyz.pavelkorolevxyz.podlodka.sessions.data.Session
 import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.Medium
 import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.PodlodkaTheme
 
+private val AvatarSize = 60.dp
+
 @Composable
 fun SessionCard(
     session: Session,
-    isFavoriteState: State<Boolean>,
     modifier: Modifier = Modifier,
+    isFavorite: Boolean = false,
     onFavoriteToggle: (Boolean) -> Unit = {},
     onClick: () -> Unit = {},
 ) {
@@ -38,7 +37,7 @@ fun SessionCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Avatar(
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(AvatarSize),
                 imageUrl = session.imageUrl,
                 contentDescription = session.speaker,
             )
@@ -62,7 +61,7 @@ fun SessionCard(
             }
 
             FavoriteButton(
-                isFavoriteState = isFavoriteState,
+                isFavorite = isFavorite,
                 onToggle = onFavoriteToggle
             )
         }
@@ -72,12 +71,9 @@ fun SessionCard(
 @Preview
 @Composable
 private fun SessionCardPreview() {
-    val session = MockSessions.first()
-    val isFavoriteState = remember { mutableStateOf(false) }
     PodlodkaTheme {
         SessionCard(
-            session = session,
-            isFavoriteState = isFavoriteState,
+            session = MockSession,
         )
     }
 }
@@ -85,11 +81,9 @@ private fun SessionCardPreview() {
 @Preview
 @Composable
 private fun SessionCardDarkPreview() {
-    val isFavoriteState = remember { mutableStateOf(false) }
     PodlodkaTheme(isDarkTheme = true) {
         SessionCard(
-            session = MockSessions.first(),
-            isFavoriteState = isFavoriteState,
+            session = MockSession,
         )
     }
 }

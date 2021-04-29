@@ -24,4 +24,23 @@ object Deps {
     object Navigation {
         const val compose = "androidx.navigation:navigation-compose:1.0.0-alpha10"
     }
+
+    object Kotlin {
+        const val serializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.0"
+    }
+
+    object Retrofit {
+        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+        const val serializationJson =
+            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    }
+
+    object Dagger {
+        private const val version = "2.33"
+
+        const val dagger = "com.google.dagger:dagger:$version"
+        const val compiler = "com.google.dagger:dagger-compiler:$version"
+    }
+
+    const val okHttpLogging = "com.squareup.okhttp3:logging-interceptor:4.9.1"
 }

@@ -29,4 +29,12 @@ subprojects {
         config = files("$rootDir/config/detekt.yml")
         buildUponDefaultConfig = true
     }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
+        kotlinOptions {
+            freeCompilerArgs = freeCompilerArgs + listOf(
+                "-Xopt-in=kotlin.RequiresOptIn",
+            )
+        }
+    }
 }

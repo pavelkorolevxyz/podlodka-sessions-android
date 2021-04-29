@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.serialization").version("1.4.30")
 }
 
 android {
@@ -74,4 +76,12 @@ dependencies {
     implementation(Deps.lifecycle)
     implementation(Deps.activityCompose)
     implementation(Deps.Navigation.compose)
+
+    implementation(Deps.Dagger.dagger)
+    kapt(Deps.Dagger.compiler)
+
+    implementation(Deps.Kotlin.serializationJson)
+    implementation(Deps.Retrofit.retrofit)
+    implementation(Deps.Retrofit.serializationJson)
+    implementation(Deps.okHttpLogging)
 }

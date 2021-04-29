@@ -12,3 +12,7 @@ style:
         active: false # because of Composable Previews
     MagicNumber:
         active: false # because of Colors
+
+exceptions:
+    SwallowedException:
+        active: false # intended behavior for view models

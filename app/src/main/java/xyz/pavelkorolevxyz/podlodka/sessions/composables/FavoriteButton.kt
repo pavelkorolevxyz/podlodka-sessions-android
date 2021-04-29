@@ -3,7 +3,6 @@ package xyz.pavelkorolevxyz.podlodka.sessions.composables
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -14,15 +13,15 @@ import xyz.pavelkorolevxyz.podlodka.sessions.R
 
 @Composable
 fun FavoriteButton(
-    isFavoriteState: State<Boolean>,
+    isFavorite: Boolean,
     onToggle: (Boolean) -> Unit = {},
 ) {
     IconButton(
         onClick = {
-            onToggle(!isFavoriteState.value)
+            onToggle(!isFavorite)
         }
     ) {
-        when (isFavoriteState.value) {
+        when (isFavorite) {
             true -> Icon(
                 painter = painterResource(id = R.drawable.ic_heart),
                 contentDescription = stringResource(id = R.string.favorite_remove),
@@ -40,8 +39,8 @@ fun FavoriteButton(
 @Preview
 @Composable
 private fun FavoriteButtonPreview() {
-    val isLikedState = remember { mutableStateOf(false) }
-    FavoriteButton(isLikedState) {
-        isLikedState.value = it
+    val isFavoriteState = remember { mutableStateOf(false) }
+    FavoriteButton(isFavoriteState.value) {
+        isFavoriteState.value = it
     }
 }

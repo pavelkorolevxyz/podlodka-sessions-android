@@ -5,13 +5,15 @@
     <string name="search">Поиск</string>
     <string name="favorite">Избранное</string>
     <string name="sessions">Сессии</string>
-
     <string name="favorite_add">Добавить в избранное</string>
     <string name="favorite_remove">Удалить из избранного</string>
+    <string name="favorite_add_error">Не удалось добавить сессию в избранное</string>
     <string name="session_not_found">Не найдено ни одной сессии</string>
     <string name="search_clear">Отменить поиск</string>
-
     <string name="session_error">Не удалось загрузить список сессий</string>
     <string name="reload">Попробовать ещё раз</string>
+    <string name="exit_confirmation">Вы уверены, что хотите выйти из приложения?</string>
+    <string name="yes">Да</string>
+    <string name="cancel">Отмена</string>
 
 </resources>
