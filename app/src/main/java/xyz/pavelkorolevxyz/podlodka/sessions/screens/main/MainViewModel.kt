@@ -70,7 +70,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (!favoriteSuccess) {
                 _isFavoriteErrorFlow.emit(true)
-                delay(300)
+                delay(1000)
                 _isFavoriteErrorFlow.emit(false)
                 return@launch
             }

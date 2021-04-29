@@ -11,15 +11,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
 import xyz.pavelkorolevxyz.podlodka.sessions.R
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.BackgroundSurface
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.EmptyView
@@ -37,18 +36,17 @@ import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.Small
 @Composable
 fun MainScreen(
     viewModelFactory: ViewModelProvider.Factory,
-    searchQuery: String = "",
     onSessionClick: (String) -> Unit = {},
     onFinish: () -> Unit = {},
 ) {
     val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
 
     val scaffoldState = rememberScaffoldState()
-    val snackbarCoroutineScope = rememberCoroutineScope()
     val sessionsState = viewModel.sessionsFlow.collectAsState(initial = null)
     val favoritesSetState = viewModel.favoritesFlow.collectAsState(initial = emptySet())
     val isLoadingState = viewModel.loadingFlow.collectAsState(initial = false)
     val isErrorState = viewModel.isErrorFlow.collectAsState(initial = false)
+    val isFavoriteErrorState = viewModel.isFavoriteErrorFlow.collectAsState(initial = false)
     val isShowExitConfirmationState = viewModel.isShowExitConfirmationFlow
         .collectAsState(initial = false)
 
@@ -56,17 +54,10 @@ fun MainScreen(
         viewModel.onBackClick()
     })
     BackgroundSurface {
-        val isFavoriteErrorState = viewModel.isFavoriteErrorFlow.collectAsState(initial = false)
         Scaffold(
             scaffoldState = scaffoldState,
         ) {
-            if (isFavoriteErrorState.value) {
-                val snackbarMessage = stringResource(id = R.string.favorite_add_error)
-                snackbarCoroutineScope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(message = snackbarMessage)
-                }
-            }
-            val searchQueryState = rememberSaveable { mutableStateOf(searchQuery) }
+            val searchQueryState = rememberSaveable { mutableStateOf("") }
 
             if (isShowExitConfirmationState.value) {
                 ExitConfirmationDialog(
@@ -180,6 +171,14 @@ fun MainScreen(
                             onClick = { onSessionClick(session.id) },
                         )
                     }
+                }
+            }
+
+            if (isFavoriteErrorState.value) {
+                val snackbarHostState = scaffoldState.snackbarHostState
+                val snackbarMessage = stringResource(id = R.string.favorite_add_error)
+                LaunchedEffect(snackbarHostState) {
+                    snackbarHostState.showSnackbar(message = snackbarMessage)
                 }
             }
         }
