@@ -45,6 +45,12 @@ fun MainScreen(
 
     val scaffoldState = rememberScaffoldState()
     val snackbarCoroutineScope = rememberCoroutineScope()
+    val sessionsState = viewModel.sessionsFlow.collectAsState(initial = null)
+    val favoritesSetState = viewModel.favoritesFlow.collectAsState(initial = emptySet())
+    val isLoadingState = viewModel.loadingFlow.collectAsState(initial = false)
+    val isErrorState = viewModel.isErrorFlow.collectAsState(initial = false)
+    val isShowExitConfirmationState = viewModel.isShowExitConfirmationFlow
+        .collectAsState(initial = false)
 
     BackHandler(onBack = {
         viewModel.onBackClick()
@@ -61,12 +67,6 @@ fun MainScreen(
                 }
             }
             val searchQueryState = rememberSaveable { mutableStateOf(searchQuery) }
-            val sessionsState = viewModel.sessionsFlow.collectAsState(initial = null)
-            val favoritesSetState = viewModel.favoritesFlow.collectAsState(initial = emptySet())
-            val isLoadingState = viewModel.loadingFlow.collectAsState(initial = false)
-            val isErrorState = viewModel.isErrorFlow.collectAsState(initial = false)
-            val isShowExitConfirmationState = viewModel.isShowExitConfirmationFlow
-                .collectAsState(initial = false)
 
             if (isShowExitConfirmationState.value) {
                 ExitConfirmationDialog(
@@ -76,6 +76,10 @@ fun MainScreen(
                     },
                 )
             }
+
+            // If we don't return before LazyColumn then sessionsState will have initial null and
+            // won't restore scroll state
+            val sessions = sessionsState.value ?: return@Scaffold
             LazyColumn(
                 contentPadding = PaddingValues(bottom = Medium),
             ) {
@@ -107,7 +111,6 @@ fun MainScreen(
                     }
                     return@LazyColumn
                 }
-                val sessions = sessionsState.value ?: return@LazyColumn
                 val favoritesSet = favoritesSetState.value
                 val favoriteSessions = sessions.filter { it.id in favoritesSet }
                 if (favoriteSessions.isNotEmpty()) {

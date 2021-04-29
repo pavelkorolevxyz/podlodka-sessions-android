@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import xyz.pavelkorolevxyz.podlodka.sessions.data.FavoriteRepository
@@ -30,7 +29,7 @@ class MainViewModel @Inject constructor(
     private val _isErrorFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isErrorFlow: Flow<Boolean> get() = _isErrorFlow
 
-    private val _isShowExitConfirmationFlow: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    private val _isShowExitConfirmationFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isShowExitConfirmationFlow: Flow<Boolean> get() = _isShowExitConfirmationFlow
 
     private val _isFavoriteErrorFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -71,7 +70,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (!favoriteSuccess) {
                 _isFavoriteErrorFlow.emit(true)
-                delay(1000)
+                delay(300)
                 _isFavoriteErrorFlow.emit(false)
                 return@launch
             }
