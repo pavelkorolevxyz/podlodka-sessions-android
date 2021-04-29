@@ -13,11 +13,12 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import xyz.pavelkorolevxyz.podlodka.sessions.R
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.BackgroundSurface
@@ -35,19 +36,19 @@ import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.Small
 
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel,
+    viewModelFactory: ViewModelProvider.Factory,
     searchQuery: String = "",
-    onReloadClick: () -> Unit = {},
     onSessionClick: (String) -> Unit = {},
-    onSessionFavoriteToggle: (String, Boolean) -> Unit = { _, _ -> },
-    onBackClick: () -> Unit = {},
-    onExitDecline: () -> Unit = {},
     onFinish: () -> Unit = {},
 ) {
+    val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
+
     val scaffoldState = rememberScaffoldState()
     val snackbarCoroutineScope = rememberCoroutineScope()
 
-    BackHandler(onBack = onBackClick)
+    BackHandler(onBack = {
+        viewModel.onBackClick()
+    })
     BackgroundSurface {
         val isFavoriteErrorState = viewModel.isFavoriteErrorFlow.collectAsState(initial = false)
         Scaffold(
@@ -70,7 +71,9 @@ fun MainScreen(
             if (isShowExitConfirmationState.value) {
                 ExitConfirmationDialog(
                     onPositiveClick = onFinish,
-                    onNegativeClick = onExitDecline,
+                    onNegativeClick = {
+                        viewModel.onExitDecline()
+                    },
                 )
             }
             LazyColumn(
@@ -97,7 +100,9 @@ fun MainScreen(
                     item {
                         ErrorView(
                             text = stringResource(id = R.string.session_error),
-                            onReloadClick = onReloadClick
+                            onReloadClick = {
+                                viewModel.onReload()
+                            }
                         )
                     }
                     return@LazyColumn
@@ -117,9 +122,8 @@ fun MainScreen(
                             horizontalArrangement = Arrangement.spacedBy(Small)
                         ) {
                             items(favoriteSessions) { session ->
-                                val sessionState = remember { mutableStateOf(session) }
                                 FavoriteSessionCard(
-                                    sessionState = sessionState,
+                                    session = session,
                                     onClick = { onSessionClick(session.id) },
                                 )
                             }
@@ -165,7 +169,7 @@ fun MainScreen(
                             session = session,
                             isFavorite = session.id in favoritesSet,
                             onFavoriteToggle = { isFavorite ->
-                                onSessionFavoriteToggle(
+                                viewModel.onSessionFavoriteToggle(
                                     session.id,
                                     isFavorite,
                                 )

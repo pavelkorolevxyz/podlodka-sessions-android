@@ -17,7 +17,6 @@ class SessionDetailsViewModel @Inject constructor(
     val sessionFlow: Flow<Session?> get() = _sessionFlow
 
     fun onLoad(sessionId: String) {
-        _sessionFlow.value = null
         loadSession(sessionId)
     }
 

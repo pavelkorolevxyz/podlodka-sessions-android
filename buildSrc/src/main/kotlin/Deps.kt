@@ -20,6 +20,7 @@ object Deps {
     }
 
     const val activityCompose = "androidx.activity:activity-compose:1.3.0-alpha07"
+    const val lifecycleCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
 
     object Navigation {
         const val compose = "androidx.navigation:navigation-compose:1.0.0-alpha10"

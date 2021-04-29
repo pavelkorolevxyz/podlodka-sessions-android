@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +20,7 @@ private val FavoriteSessionCardSize = 128.dp
 
 @Composable
 fun FavoriteSessionCard(
-    sessionState: State<Session>,
+    session: Session,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
@@ -33,7 +30,6 @@ fun FavoriteSessionCard(
         onClick = onClick,
     ) {
         Column(modifier = Modifier.padding(Small)) {
-            val session = sessionState.value
             Text(
                 style = MaterialTheme.typography.h4,
                 text = session.timeInterval,
@@ -64,17 +60,15 @@ fun FavoriteSessionCard(
 @Preview
 @Composable
 private fun FavoriteSessionCardPreview() {
-    val sessionState = remember { mutableStateOf(MockSession) }
     PodlodkaTheme {
-        FavoriteSessionCard(sessionState = sessionState) {}
+        FavoriteSessionCard(session = MockSession)
     }
 }
 
 @Preview
 @Composable
 private fun FavoriteSessionCardDarkPreview() {
-    val sessionState = remember { mutableStateOf(MockSession) }
     PodlodkaTheme(isDarkTheme = true) {
-        FavoriteSessionCard(sessionState = sessionState) {}
+        FavoriteSessionCard(session = MockSession)
     }
 }

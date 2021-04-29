@@ -14,6 +14,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.Avatar
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.BackgroundSurface
 import xyz.pavelkorolevxyz.podlodka.sessions.composables.DateTimeText
@@ -21,9 +23,10 @@ import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.Medium
 
 @Composable
 fun SessionDetailsScreen(
-    viewModel: SessionDetailsViewModel,
+    viewModelFactory: ViewModelProvider.Factory,
     sessionId: String,
 ) {
+    val viewModel: SessionDetailsViewModel = viewModel(factory = viewModelFactory)
     viewModel.onLoad(sessionId = sessionId)
     BackgroundSurface {
         val sessionState = viewModel.sessionFlow.collectAsState(initial = null)

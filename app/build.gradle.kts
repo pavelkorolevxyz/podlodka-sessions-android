@@ -76,6 +76,7 @@ dependencies {
     implementation(Deps.lifecycle)
     implementation(Deps.activityCompose)
     implementation(Deps.Navigation.compose)
+    implementation(Deps.lifecycleCompose)
 
     implementation(Deps.Dagger.dagger)
     kapt(Deps.Dagger.compiler)

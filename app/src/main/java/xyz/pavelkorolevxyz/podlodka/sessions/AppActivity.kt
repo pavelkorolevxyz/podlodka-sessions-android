@@ -3,8 +3,8 @@ package xyz.pavelkorolevxyz.podlodka.sessions
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,23 +13,15 @@ import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import xyz.pavelkorolevxyz.podlodka.sessions.navigation.Destinations
 import xyz.pavelkorolevxyz.podlodka.sessions.screens.main.MainScreen
-import xyz.pavelkorolevxyz.podlodka.sessions.screens.main.MainViewModel
 import xyz.pavelkorolevxyz.podlodka.sessions.screens.sessiondetails.SessionDetailsScreen
-import xyz.pavelkorolevxyz.podlodka.sessions.screens.sessiondetails.SessionDetailsViewModel
 import xyz.pavelkorolevxyz.podlodka.sessions.ui.theme.PodlodkaTheme
 
 class AppActivity : ComponentActivity() {
 
-    private val mainComponent by lazy {
-        (application as App).component.mainComponent()
-    }
-
-    private val mainViewModel: MainViewModel by viewModels {
-        mainComponent.viewModelFactory()
-    }
-
-    private val sessionDetailsViewModel: SessionDetailsViewModel by viewModels {
-        mainComponent.viewModelFactory()
+    private val viewModelFactory: ViewModelProvider.Factory by lazy(LazyThreadSafetyMode.NONE) {
+        (application as App).component
+            .mainComponent()
+            .viewModelFactory()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,19 +29,18 @@ class AppActivity : ComponentActivity() {
 
         setContent {
             AppNavigation(
-                mainViewModel,
-                sessionDetailsViewModel,
-            ) {
-                finish()
-            }
+                viewModelFactory,
+                onFinish = {
+                    finish()
+                }
+            )
         }
     }
 }
 
 @Composable
 private fun AppNavigation(
-    mainViewModel: MainViewModel,
-    sessionDetailsViewModel: SessionDetailsViewModel,
+    viewModelFactory: ViewModelProvider.Factory,
     onFinish: () -> Unit = {},
 ) {
     val navController = rememberNavController()
@@ -60,25 +51,13 @@ private fun AppNavigation(
         ) {
             composable(Destinations.Main) {
                 MainScreen(
-                    mainViewModel,
+                    viewModelFactory = viewModelFactory,
                     onSessionClick = { sessionId ->
                         navController.navigate(
                             "${Destinations.SessionDetails}/$sessionId"
                         )
                     },
-                    onReloadClick = {
-                        mainViewModel.onReload()
-                    },
-                    onSessionFavoriteToggle = { sessionId, isFavorite ->
-                        mainViewModel.onSessionFavoriteToggle(sessionId, isFavorite)
-                    },
-                    onBackClick = {
-                        mainViewModel.onBackClick()
-                    },
-                    onExitDecline = {
-                        mainViewModel.onExitDecline()
-                    },
-                    onFinish = onFinish
+                    onFinish = onFinish,
                 )
             }
             composable(
@@ -93,7 +72,7 @@ private fun AppNavigation(
                     ?.getString(Destinations.SessionDetailsArgs.SessionId)
                     ?: throw IllegalArgumentException("Session Id should be provided")
                 SessionDetailsScreen(
-                    viewModel = sessionDetailsViewModel,
+                    viewModelFactory = viewModelFactory,
                     sessionId = sessionId,
                 )
             }
